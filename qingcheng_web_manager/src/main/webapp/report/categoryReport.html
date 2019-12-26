@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品类目统计</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div id="app">
+    <el-date-picker
+            v-model="dateRange"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            @change="fetchData()"
+    >
+    </el-date-picker>
+
+    <el-table
+            :data="tableData"
+            border
+            style="width: 100%">
+        <el-table-column
+                prop="categoryName"
+                label="分类名称"
+                width="200">
+        </el-table-column>
+        <el-table-column
+                prop="num"
+                label="销售量"
+                width="200">
+        </el-table-column>
+        <el-table-column
+                prop="money"
+                label="销售额"
+                width="200">
+        </el-table-column>
+    </el-table>
+</div>
+</body>
+<script src="/js/util.js"></script>
+<script src="/js/vue.js"></script>
+<script src="/js/axios.js"></script>
+<script src="/js/elementui.js"></script>
+
+<script>
+    new Vue({
+        el:'#app',
+        data(){
+            return{
+                tableData:[],
+                dateRange:[]
+            }
+
+        },
+        methods:{
+            fetchData(){
+                let date1=this.dateRange[0].Format('yyyy-MM-dd');
+                let date2=this.dateRange[1].Format('yyyy-MM-dd');
+                axios.get(`/categoryReport/category1Count.do?date1=${date1}&date2=${date2}`).then(response=>{
+                    this.tableData=response.data;
+
+                })
+            }
+        }
+
+    })
+
+</script>
+</html>

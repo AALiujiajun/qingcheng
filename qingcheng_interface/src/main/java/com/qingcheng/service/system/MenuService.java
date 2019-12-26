@@ -32,4 +32,8 @@ public interface MenuService {
 
     public void delete(String id);
 
+    public List<Map> findAllMenu();
+
+/*    private List<Map> findMenuListByParentId(List<Menu> menuList,String parentId);*/
+
 }

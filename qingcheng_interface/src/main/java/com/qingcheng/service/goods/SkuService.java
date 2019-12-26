@@ -16,10 +16,10 @@ public interface SkuService {
     public PageResult<Sku> findPage(int page, int size);
 
 
-    public List<Sku> findList(Map<String,Object> searchMap);
+    public List<Sku> findList(Map<String, Object> searchMap);
 
 
-    public PageResult<Sku> findPage(Map<String,Object> searchMap,int page, int size);
+    public PageResult<Sku> findPage(Map<String, Object> searchMap, int page, int size);
 
 
     public Sku findById(String id);
@@ -32,4 +32,12 @@ public interface SkuService {
 
     public void delete(String id);
 
+    public void saveAllPriceToRedis();
+
+    public Integer findPrice(String id);
+
+    public void savePriceToRedisById(String id, Integer price);
+
+
+    public void deletePriceToRedisById(String id);
 }

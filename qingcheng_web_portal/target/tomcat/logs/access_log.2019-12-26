@@ -1,0 +1,13 @@
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:13:46:51 +0800] "GET /item/createPage.do?spuId=100000047372 HTTP/1.1" 200 25 http-bio-9102-exec-1 4477
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:13:47:40 +0800] "GET /item/createPage.do?spuId=10000005620800 HTTP/1.1" 200 - http-bio-9102-exec-4 529
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:13:48:28 +0800] "GET /sku/price.do?id=100000030632 HTTP/1.1" 200 5 http-bio-9102-exec-7 187
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:13:48:55 +0800] "GET /sku/price.do?id=100000030632 HTTP/1.1" 200 5 http-bio-9102-exec-9 72
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:13:49:02 +0800] "GET /sku/price.do?id=100000030632 HTTP/1.1" 200 5 http-bio-9102-exec-1 42
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:14:00:04 +0800] "GET /item/createPage.do?spuId=10000005620800 HTTP/1.1" 200 - http-bio-9102-exec-1 4210
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:14:00:07 +0800] "GET /item/createPage.do?spuId=10000005620800 HTTP/1.1" 200 - http-bio-9102-exec-3 70
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:14:00:18 +0800] "GET /sku/price.do?id=/*%22100000056208%22*/ HTTP/1.1" 200 - http-bio-9102-exec-5 24
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:14:00:22 +0800] "GET /sku/price.do?id=/*%22100000056200%22*/ HTTP/1.1" 200 - http-bio-9102-exec-6 34
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:14:00:26 +0800] "GET /sku/price.do?id=/*%22100000206315%22*/ HTTP/1.1" 200 - http-bio-9102-exec-7 17
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:14:01:14 +0800] "GET /item/createPage.do?spuId=10000005620800 HTTP/1.1" 200 - http-bio-9102-exec-1 4772
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:14:01:21 +0800] "GET /sku/price.do?id=100000056208 HTTP/1.1" 200 4 http-bio-9102-exec-4 34
+0:0:0:0:0:0:0:1 - - [26/Dec/2019:14:01:30 +0800] "GET /sku/price.do?id=100000056200 HTTP/1.1" 200 5 http-bio-9102-exec-5 8

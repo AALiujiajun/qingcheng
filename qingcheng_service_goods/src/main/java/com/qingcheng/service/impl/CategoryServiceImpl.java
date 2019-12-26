@@ -6,9 +6,13 @@ import com.qingcheng.dao.CategoryMapper;
 import com.qingcheng.entity.PageResult;
 import com.qingcheng.pojo.goods.Category;
 import com.qingcheng.service.goods.CategoryService;
+import com.qingcheng.util.CacheKey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,6 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     public void add(Category category) {
         categoryMapper.insert(category);
+        saveCategoryTreeToRedis();
     }
 
     /**
@@ -85,6 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     public void update(Category category) {
         categoryMapper.updateByPrimaryKeySelective(category);
+        saveCategoryTreeToRedis();
     }
 
     /**
@@ -101,6 +107,43 @@ public class CategoryServiceImpl implements CategoryService {
             throw new RuntimeException("存在下级分类不能删除");
         }
         categoryMapper.deleteByPrimaryKey(id);
+        saveCategoryTreeToRedis();
+    }
+
+    @Override
+    public List<Map> findCategoryTree() {
+        System.out.println("从缓存中提取数据!!");
+        return (List<Map>) redisTemplate.boundValueOps(CacheKey.CATEGORY_TREE).get();
+    }
+
+    @Override
+    public void saveCategoryTreeToRedis() {
+        Example example = new Example(Category.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isShow","1");
+        example.setOrderByClause("seq");
+        List<Category> categories = categoryMapper.selectByExample(example);
+        System.out.println(categories);
+        List<Map> categoryTree = findByParentId(categories, 0);
+        redisTemplate.boundValueOps(CacheKey.CATEGORY_TREE).set(categoryTree);
+    }
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    private List<Map> findByParentId(List<Category> categoryList,Integer parentId){
+        List<Map> mapList=new ArrayList<Map>();
+        for(Category category: categoryList)
+        {
+            if(category.getParentId().equals(parentId))
+            {
+                HashMap hashMap = new HashMap();
+                 hashMap.put("name",category.getName());
+                 hashMap.put("menus",findByParentId(categoryList,category.getId()));
+                mapList.add(hashMap);
+            }
+
+        }
+        return  mapList;
     }
 
     /**

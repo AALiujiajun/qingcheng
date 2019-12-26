@@ -40,13 +40,14 @@ public class UploadController {
 
     @PostMapping("/oss")
     public String ossUpload(@RequestParam("file") MultipartFile file,String folder){
-        String bucketName = "qing-cheng";
+        String bucketName = "qingcheng-syc";
         String fileName= folder+"/"+ UUID.randomUUID()+"_"+file.getOriginalFilename();
         try {
             ossClient.putObject(bucketName, fileName, file.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
+      //  return "https://"+bucketName+".oss-cn-shenzhen.aliyuncs.com/"+fileName;
         return "http://"+bucketName+"."+ ossClient.getEndpoint().toString().replace("http://","") +"/"+fileName;
     }
 

@@ -6,7 +6,9 @@ import com.qingcheng.dao.SkuMapper;
 import com.qingcheng.entity.PageResult;
 import com.qingcheng.pojo.goods.Sku;
 import com.qingcheng.service.goods.SkuService;
+import com.qingcheng.util.CacheKey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -93,6 +95,43 @@ public class SkuServiceImpl implements SkuService {
      */
     public void delete(String id) {
         skuMapper.deleteByPrimaryKey(id);
+    }
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Override
+    public void saveAllPriceToRedis() {
+
+        Boolean aBoolean = redisTemplate.hasKey(CacheKey.SKU_PRICE);
+        if(!aBoolean)
+        {
+            List<Sku> skus = skuMapper.selectAll();
+            for (Sku sku:skus)
+            {
+                if("1".equals(sku.getStatus()))
+                {
+                    redisTemplate.boundHashOps(CacheKey.SKU_PRICE).put(sku.getId(),sku.getPrice());
+                }
+            }
+        }
+
+
+    }
+
+    @Override
+    public Integer findPrice(String id) {
+        return (Integer) redisTemplate.boundHashOps(CacheKey.SKU_PRICE).get(id);
+    }
+
+    @Override
+    public void savePriceToRedisById(String id, Integer price) {
+        redisTemplate.boundHashOps(CacheKey.SKU_PRICE).put(id,price);
+    }
+
+    @Override
+    public void deletePriceToRedisById(String id) {
+        redisTemplate.boundHashOps(CacheKey.SKU_PRICE).delete(id);
     }
 
     /**
